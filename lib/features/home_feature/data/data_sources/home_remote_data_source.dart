@@ -10,12 +10,13 @@ abstract class HomeRemoteDataSource {
   Future<List<MovieEntity>> getTopRatedMovies();
 }
 
-class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
+class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   final ApiServices apiServices;
   HomeRemoteDataSourceImpl({required this.apiServices});
   @override
   Future<List<MovieEntity>> getNowPlayingMovies() async {
     var data = await apiServices.get(endPoint: 'now_playing');
+
     List<MovieEntity> moviesList = mapMoviesList(data);
     saveMoviesLocal(moviesList, kNowPlayingMoviesBox);
 
@@ -26,6 +27,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<List<MovieEntity>> getPopularMovies() async {
     var data = await apiServices.get(endPoint: 'popular');
     List<MovieEntity> moviesList = mapMoviesList(data);
+
     saveMoviesLocal(moviesList, kPopularMoviesBox);
     return moviesList;
   }

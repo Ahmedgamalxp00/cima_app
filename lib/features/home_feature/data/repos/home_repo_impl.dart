@@ -20,7 +20,7 @@ class HomeRepoImpl extends HomeRepo {
 
     try {
       movies = homeLocalDataSource.getNowPlayingMovies();
-      if (movies.isEmpty) {
+      if (movies.isNotEmpty) {
         return right(movies);
       }
       movies = await homeRemoteDataSource.getNowPlayingMovies();
@@ -39,7 +39,7 @@ class HomeRepoImpl extends HomeRepo {
 
     try {
       movies = homeLocalDataSource.getPopularMovies();
-      if (movies.isEmpty) {
+      if (movies.isNotEmpty) {
         return right(movies);
       }
       movies = await homeRemoteDataSource.getPopularMovies();
@@ -58,7 +58,7 @@ class HomeRepoImpl extends HomeRepo {
 
     try {
       movies = homeLocalDataSource.getTopRatedMovies();
-      if (movies.isEmpty) {
+      if (movies.isNotEmpty) {
         return right(movies);
       }
       movies = await homeRemoteDataSource.getTopRatedMovies();

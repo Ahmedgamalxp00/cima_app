@@ -1,10 +1,10 @@
-import 'package:cima_app/core/dummy1.dart';
+import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 import 'package:cima_app/features/home_feature/presentation/views/widgets/movie_list_image.dart';
 import 'package:flutter/material.dart';
 
 class PopularMoviesListView extends StatelessWidget {
-  const PopularMoviesListView({super.key});
-
+  const PopularMoviesListView({super.key, required this.moviesList});
+  final List<MovieEntity> moviesList;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -19,7 +19,7 @@ class PopularMoviesListView extends StatelessWidget {
                 // context.push(AppRouter.kMovieDetailesView,
                 //     extra: state.moviesList[indext].id);
               },
-              url: moviesList[indext].backdropPath!,
+              url: moviesList[indext].image,
             );
           },
           separatorBuilder: (context, indext) {

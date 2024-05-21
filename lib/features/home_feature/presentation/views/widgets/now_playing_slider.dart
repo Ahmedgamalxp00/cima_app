@@ -1,12 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cima_app/core/constants.dart';
-import 'package:cima_app/core/dummy1.dart';
+import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 import 'package:flutter/material.dart';
 
-class MoviesSlider extends StatelessWidget {
-  const MoviesSlider({super.key});
-
+class NowPlayingMoviesSlider extends StatelessWidget {
+  const NowPlayingMoviesSlider({
+    super.key,
+    required this.moviesList,
+  });
+  final List<MovieEntity> moviesList;
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
@@ -41,7 +44,7 @@ class MoviesSlider extends StatelessWidget {
               blendMode: BlendMode.dstOut,
               child: CachedNetworkImage(
                 height: 560.0,
-                imageUrl: imageUrl(item.backdropPath!),
+                imageUrl: imageUrl(item.image),
                 fit: BoxFit.cover,
               ),
             ),
@@ -83,9 +86,10 @@ class MoviesSlider extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
+                  padding: const EdgeInsets.only(
+                      bottom: 16.0, left: 16.0, right: 16.0),
                   child: Text(
-                    item.title!,
+                    item.name,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 24,

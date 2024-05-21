@@ -1,5 +1,5 @@
 import 'package:cima_app/features/home_feature/presentation/views/widgets/popular_movies_section.dart';
-import 'package:cima_app/features/home_feature/presentation/views/widgets/slider.dart';
+import 'package:cima_app/features/home_feature/presentation/views/widgets/slider_section.dart';
 import 'package:cima_app/features/home_feature/presentation/views/widgets/topRated_movies_Section.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ class HomeView extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
-              MoviesSlider(),
+              NowPlayingSliderSection(),
               PopularMoviesSection(),
               TopRatedMoviesSection(),
               SizedBox(height: 50),
