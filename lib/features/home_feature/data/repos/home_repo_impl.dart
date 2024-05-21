@@ -4,6 +4,7 @@ import 'package:cima_app/features/home_feature/data/data_sources/home_remote_dat
 import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 import 'package:cima_app/features/home_feature/domain/repos/home_repo.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 
 class HomeRepoImpl extends HomeRepo {
   final HomeRemoteDataSource homeRemoteDataSource;
@@ -25,7 +26,10 @@ class HomeRepoImpl extends HomeRepo {
       movies = await homeRemoteDataSource.getNowPlayingMovies();
       return right(movies);
     } catch (e) {
-      return left(Failure());
+      if (e is DioException) {
+        return left(ServerFailure.fromDiorError(e));
+      }
+      return left(ServerFailure(e.toString()));
     }
   }
 
@@ -41,7 +45,10 @@ class HomeRepoImpl extends HomeRepo {
       movies = await homeRemoteDataSource.getPopularMovies();
       return right(movies);
     } catch (e) {
-      return left(Failure());
+      if (e is DioException) {
+        return left(ServerFailure.fromDiorError(e));
+      }
+      return left(ServerFailure(e.toString()));
     }
   }
 
@@ -57,7 +64,10 @@ class HomeRepoImpl extends HomeRepo {
       movies = await homeRemoteDataSource.getTopRatedMovies();
       return right(movies);
     } catch (e) {
-      return left(Failure());
+      if (e is DioException) {
+        return left(ServerFailure.fromDiorError(e));
+      }
+      return left(ServerFailure(e.toString()));
     }
   }
 }
