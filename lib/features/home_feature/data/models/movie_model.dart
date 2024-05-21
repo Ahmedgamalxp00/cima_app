@@ -1,4 +1,6 @@
-class MovieModel {
+import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
+
+class MovieModel extends MovieEntity {
   bool? adult;
   String? backdropPath;
   List<dynamic>? genreIds;
@@ -8,10 +10,11 @@ class MovieModel {
   String? overview;
   double? popularity;
   String? posterPath;
+
   String? releaseDate;
   String? title;
   bool? video;
-  double? voteAverage;
+  num? voteAverage;
   int? voteCount;
 
   MovieModel({
@@ -29,7 +32,12 @@ class MovieModel {
     this.video,
     this.voteAverage,
     this.voteCount,
-  });
+  }) : super(
+            name: title!,
+            description: overview!,
+            image: backdropPath ?? '',
+            date: releaseDate!,
+            rate: voteAverage ?? 0.0);
 
   factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         adult: json['adult'] as bool?,
