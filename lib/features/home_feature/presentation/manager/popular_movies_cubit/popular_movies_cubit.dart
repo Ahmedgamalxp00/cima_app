@@ -10,12 +10,21 @@ class PopularMoviesCubit extends Cubit<PopularMoviesState> {
       : super(PopularMoviesInitial());
   final GetPopularMoviesUseCase getPopularMoviesUseCase;
 
-  Future<void> getPopularMovies() async {
-    emit(PopularMoviesLoading());
-    final result = await getPopularMoviesUseCase.call();
+  Future<void> getPopularMovies({int pageNumber = 1}) async {
+    if (pageNumber == 1) {
+      emit(PopularMoviesLoading());
+    } else {
+      emit(PopularMoviesPaginationLoading());
+    }
+
+    final result = await getPopularMoviesUseCase.call(pageNumber);
     result.fold(
       (failure) {
-        emit(PopularMoviesFailure(failure.message));
+        if (pageNumber == 1) {
+          emit(PopularMoviesFailure(failure.message));
+        } else {
+          emit(PopularMoviesPaginationFailure(failure.message));
+        }
       },
       (movies) {
         emit(PopularMoviesSuccess(movies));

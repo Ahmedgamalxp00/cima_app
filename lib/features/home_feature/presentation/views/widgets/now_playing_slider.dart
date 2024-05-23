@@ -13,7 +13,9 @@ class NowPlayingMoviesSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
+      
       options: CarouselOptions(
+        
         autoPlay: true,
         autoPlayInterval: const Duration(seconds: 7),
         height: 400.0,

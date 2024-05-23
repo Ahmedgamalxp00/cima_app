@@ -15,15 +15,17 @@ class HomeRepoImpl extends HomeRepo {
     required this.homeLocalDataSource,
   });
   @override
-  Future<Either<Failure, List<MovieEntity>>> getNowPlayingMovies() async {
+  Future<Either<Failure, List<MovieEntity>>> getNowPlayingMovies(
+      {int pageNumber = 1}) async {
     List<MovieEntity> movies;
 
     try {
-      movies = homeLocalDataSource.getNowPlayingMovies();
+      movies = homeLocalDataSource.getNowPlayingMovies(pageNumber: pageNumber);
       if (movies.isNotEmpty) {
         return right(movies);
       }
-      movies = await homeRemoteDataSource.getNowPlayingMovies();
+      movies = await homeRemoteDataSource.getNowPlayingMovies(
+          pageNumber: pageNumber);
       return right(movies);
     } catch (e) {
       if (e is DioException) {
@@ -34,15 +36,17 @@ class HomeRepoImpl extends HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<MovieEntity>>> getPopularMovies() async {
+  Future<Either<Failure, List<MovieEntity>>> getPopularMovies(
+      {int pageNumber = 1}) async {
     List<MovieEntity> movies;
 
     try {
-      movies = homeLocalDataSource.getPopularMovies();
+      movies = homeLocalDataSource.getPopularMovies(pageNumber: pageNumber);
       if (movies.isNotEmpty) {
         return right(movies);
       }
-      movies = await homeRemoteDataSource.getPopularMovies();
+      movies =
+          await homeRemoteDataSource.getPopularMovies(pageNumber: pageNumber);
       return right(movies);
     } catch (e) {
       if (e is DioException) {
@@ -53,15 +57,17 @@ class HomeRepoImpl extends HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<MovieEntity>>> getTopRatedMovies() async {
+  Future<Either<Failure, List<MovieEntity>>> getTopRatedMovies(
+      {int pageNumber = 1}) async {
     List<MovieEntity> movies;
 
     try {
-      movies = homeLocalDataSource.getTopRatedMovies();
+      movies = homeLocalDataSource.getTopRatedMovies(pageNumber: pageNumber);
       if (movies.isNotEmpty) {
         return right(movies);
       }
-      movies = await homeRemoteDataSource.getTopRatedMovies();
+      movies =
+          await homeRemoteDataSource.getTopRatedMovies(pageNumber: pageNumber);
       return right(movies);
     } catch (e) {
       if (e is DioException) {

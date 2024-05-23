@@ -10,12 +10,21 @@ class TopRatedMoviesCubit extends Cubit<TopRatedMoviesState> {
       : super(TopRatedMoviesInitial());
   final GetTopRatedMoviesUseCase getTopRatedMoviesUseCase;
 
-  Future<void> getTopRatedMovies() async {
-    emit(TopRatedMoviesLoading());
-    final result = await getTopRatedMoviesUseCase.call();
+  Future<void> getTopRatedMovies({int pageNumber = 1}) async {
+    if (pageNumber == 1) {
+      emit(TopRatedMoviesLoading());
+    } else {
+      emit(TopRatedMoviesPaginationLoading());
+    }
+
+    final result = await getTopRatedMoviesUseCase.call(pageNumber);
     result.fold(
       (failure) {
-        emit(TopRatedMoviesFailure(failure.message));
+        if (pageNumber == 1) {
+          emit(TopRatedMoviesFailure(failure.message));
+        } else {
+          emit(TopRatedMoviesPaginationFailure(failure.message));
+        }
       },
       (movies) {
         emit(TopRatedMoviesSuccess(movies));

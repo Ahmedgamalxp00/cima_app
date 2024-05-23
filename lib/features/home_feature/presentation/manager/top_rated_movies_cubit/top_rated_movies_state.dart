@@ -7,6 +7,8 @@ final class TopRatedMoviesInitial extends TopRatedMoviesState {}
 
 final class TopRatedMoviesLoading extends TopRatedMoviesState {}
 
+final class TopRatedMoviesPaginationLoading extends TopRatedMoviesState {}
+
 final class TopRatedMoviesSuccess extends TopRatedMoviesState {
   final List<MovieEntity> movies;
   TopRatedMoviesSuccess(this.movies);
@@ -15,4 +17,9 @@ final class TopRatedMoviesSuccess extends TopRatedMoviesState {
 final class TopRatedMoviesFailure extends TopRatedMoviesState {
   final String errMassage;
   TopRatedMoviesFailure(this.errMassage);
+}
+
+final class TopRatedMoviesPaginationFailure extends TopRatedMoviesState {
+  final String errMassage;
+  TopRatedMoviesPaginationFailure(this.errMassage);
 }

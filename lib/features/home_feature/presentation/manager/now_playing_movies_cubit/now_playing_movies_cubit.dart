@@ -10,9 +10,13 @@ class NowPlayingMoviesCubit extends Cubit<NowPlayingMoviesState> {
       : super(NowPlayingMoviesInitial());
   final GetNowPlayingMoviesUseCase getNowPlayingMoviesUseCase;
 
-  Future<void> getNowPlayingMovies() async {
-    emit(NowPlayingMoviesLoading());
-    final result = await getNowPlayingMoviesUseCase.call();
+  Future<void> getNowPlayingMovies({int pageNumber = 1}) async {
+    if (pageNumber == 1) {
+      emit(NowPlayingMoviesLoading());
+    } else {
+      emit(NowPlayingMoviesPaginationLoading());
+    }
+    final result = await getNowPlayingMoviesUseCase.call(pageNumber);
     result.fold((failure) {
       emit(NowPlayingMoviesFailure(failure.message));
     }, (movies) {

@@ -1,21 +1,22 @@
 import 'package:cima_app/core/constants.dart';
-import 'package:cima_app/core/utils/api_services.dart';
+import 'package:cima_app/core/networking/api_services.dart';
 import 'package:cima_app/core/utils/functions/map_movies_list.dart';
 import 'package:cima_app/core/utils/functions/save_movies_local.dart';
 import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<List<MovieEntity>> getNowPlayingMovies();
-  Future<List<MovieEntity>> getPopularMovies();
-  Future<List<MovieEntity>> getTopRatedMovies();
+  Future<List<MovieEntity>> getNowPlayingMovies({int pageNumber = 1});
+  Future<List<MovieEntity>> getPopularMovies({int pageNumber = 1});
+  Future<List<MovieEntity>> getTopRatedMovies({int pageNumber = 1});
 }
 
 class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   final ApiServices apiServices;
   HomeRemoteDataSourceImpl({required this.apiServices});
   @override
-  Future<List<MovieEntity>> getNowPlayingMovies() async {
-    var data = await apiServices.get(endPoint: 'now_playing');
+  Future<List<MovieEntity>> getNowPlayingMovies({int pageNumber = 1}) async {
+    var data = await apiServices.get(
+        endPoint: 'now_playing', param: '&page=$pageNumber');
 
     List<MovieEntity> moviesList = mapMoviesList(data);
     saveMoviesLocal(moviesList, kNowPlayingMoviesBox);
@@ -24,8 +25,9 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   }
 
   @override
-  Future<List<MovieEntity>> getPopularMovies() async {
-    var data = await apiServices.get(endPoint: 'popular');
+  Future<List<MovieEntity>> getPopularMovies({int pageNumber = 1}) async {
+    var data =
+        await apiServices.get(endPoint: 'popular', param: '&page=$pageNumber');
     List<MovieEntity> moviesList = mapMoviesList(data);
 
     saveMoviesLocal(moviesList, kPopularMoviesBox);
@@ -33,8 +35,9 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   }
 
   @override
-  Future<List<MovieEntity>> getTopRatedMovies() async {
-    var data = await apiServices.get(endPoint: 'top_rated');
+  Future<List<MovieEntity>> getTopRatedMovies({int pageNumber = 1}) async {
+    var data = await apiServices.get(
+        endPoint: 'top_rated', param: '&page=$pageNumber');
     List<MovieEntity> moviesList = mapMoviesList(data);
     saveMoviesLocal(moviesList, kTopRatedMoviesBox);
     return moviesList;

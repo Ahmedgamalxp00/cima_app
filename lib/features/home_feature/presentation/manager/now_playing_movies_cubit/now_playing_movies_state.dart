@@ -6,6 +6,7 @@ sealed class NowPlayingMoviesState {}
 final class NowPlayingMoviesInitial extends NowPlayingMoviesState {}
 
 final class NowPlayingMoviesLoading extends NowPlayingMoviesState {}
+final class NowPlayingMoviesPaginationLoading extends NowPlayingMoviesState {}
 
 final class NowPlayingMoviesSuccess extends NowPlayingMoviesState {
   final List<MovieEntity> movies;
