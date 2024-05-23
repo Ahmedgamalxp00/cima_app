@@ -14,11 +14,13 @@ class MovieEntity {
   final String date;
   @HiveField(4)
   final num rate;
-
+  @HiveField(5)
+  final int movieId;
   MovieEntity(
       {required this.name,
       required this.description,
       required this.image,
       required this.date,
-      required this.rate});
+      required this.rate,
+      required this.movieId});
 }

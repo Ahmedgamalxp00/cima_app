@@ -1,13 +1,11 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cima_app/features/home_feature/data/models/movie_detailes_model/movie/genre.detailes.model.dart';
+import 'package:cima_app/features/home_feature/domain/entities/movie_detailes_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../data/models/movie_detailes_model/movie/movie.detailes.model.dart';
-
 class MoviesDetailes extends StatelessWidget {
   const MoviesDetailes({super.key, required this.movie});
-  final MovieDetailesModel movie;
+  final MovieDetailesEntity movie;
   @override
   Widget build(BuildContext context) {
     return FadeInUp(
@@ -17,7 +15,7 @@ class MoviesDetailes extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(movie.title!,
+            Text(movie.movieTitle,
                 style: GoogleFonts.poppins(
                   fontSize: 23,
                   fontWeight: FontWeight.w700,
@@ -36,7 +34,7 @@ class MoviesDetailes extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: Text(
-                    movie.releaseDate!.split('-')[0],
+                    movie.movieReleaseDate.split('-')[0],
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w500,
@@ -53,7 +51,7 @@ class MoviesDetailes extends StatelessWidget {
                     ),
                     const SizedBox(width: 4.0),
                     Text(
-                      (movie.voteAverage! / 2).toStringAsFixed(1),
+                      (movie.movieVoteAverage / 2).toStringAsFixed(1),
                       style: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w500,
@@ -62,7 +60,7 @@ class MoviesDetailes extends StatelessWidget {
                     ),
                     const SizedBox(width: 4.0),
                     Text(
-                      '(${movie.voteAverage})',
+                      '(${movie.movieVoteAverage})',
                       style: const TextStyle(
                         fontSize: 1.0,
                         fontWeight: FontWeight.w500,
@@ -73,7 +71,7 @@ class MoviesDetailes extends StatelessWidget {
                 ),
                 const SizedBox(width: 16.0),
                 Text(
-                  _showDuration(movie.runtime!),
+                  _showDuration(movie.movieRuntime),
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 16.0,
@@ -85,7 +83,7 @@ class MoviesDetailes extends StatelessWidget {
             ),
             const SizedBox(height: 20.0),
             Text(
-              movie.overview!,
+              movie.movieOverview,
               style: const TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
@@ -94,7 +92,7 @@ class MoviesDetailes extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             Text(
-              _showGenres(movie.genres!),
+              _showGenres(movie.movieGenres),
               style: const TextStyle(
                 color: Colors.white54,
                 fontSize: 12.0,
@@ -109,10 +107,10 @@ class MoviesDetailes extends StatelessWidget {
   }
 }
 
-String _showGenres(List<Genre> genres) {
+String _showGenres(List<String> genres) {
   String result = '';
   for (var genre in genres) {
-    result += '${genre.name}, ';
+    result += '$genre, ';
   }
 
   if (result.isEmpty) {

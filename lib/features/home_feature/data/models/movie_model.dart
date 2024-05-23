@@ -33,6 +33,7 @@ class MovieModel extends MovieEntity {
     this.voteAverage,
     this.voteCount,
   }) : super(
+            movieId: id!,
             name: title!,
             description: overview!,
             image: backdropPath ?? '',

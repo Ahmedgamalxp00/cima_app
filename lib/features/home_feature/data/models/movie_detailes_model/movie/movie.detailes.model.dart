@@ -1,10 +1,12 @@
+import 'package:cima_app/features/home_feature/domain/entities/movie_detailes_entity.dart';
+
 import 'belongs_to_collection.detailes.model.dart';
 import 'genre.detailes.model.dart';
 import 'production_company.detailes.model.dart';
 import 'production_country.detailes.model.dart';
 import 'spoken_language.detailes.model.dart';
 
-class MovieDetailesModel {
+class MovieDetailesModel extends MovieDetailesEntity {
   bool? adult;
   String? backdropPath;
   BelongsToCollection? belongsToCollection;
@@ -57,7 +59,16 @@ class MovieDetailesModel {
     this.video,
     this.voteAverage,
     this.voteCount,
-  });
+  }) : super(
+          movieBackdropPath: backdropPath ?? '',
+          movieGenres: genres!.map((e) => e.name!).toList(),
+          movieId: id!,
+          movieOverview: overview!,
+          movieReleaseDate: releaseDate!,
+          movieRuntime: runtime!,
+          movieTitle: title!,
+          movieVoteAverage: voteAverage!,
+        );
 
   factory MovieDetailesModel.fromJson(Map<String, dynamic> json) =>
       MovieDetailesModel(

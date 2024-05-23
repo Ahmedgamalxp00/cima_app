@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cima_app/core/constants.dart';
+import 'package:cima_app/core/routing/app_router.dart';
 import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NowPlayingMoviesSlider extends StatelessWidget {
   const NowPlayingMoviesSlider({
@@ -13,9 +15,7 @@ class NowPlayingMoviesSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      
       options: CarouselOptions(
-        
         autoPlay: true,
         autoPlayInterval: const Duration(seconds: 7),
         height: 400.0,
@@ -23,8 +23,8 @@ class NowPlayingMoviesSlider extends StatelessWidget {
       ),
       items: moviesList.map((item) {
         return GestureDetector(
-          // onTap: ()=>
-          //     context.push(AppRouter.kMovieDetailesView, extra: item.id),
+          onTap: () =>
+              context.push(AppRouter.kDetailsView, extra: item.movieId),
           child: Stack(children: [
             ShaderMask(
               shaderCallback: (rect) {

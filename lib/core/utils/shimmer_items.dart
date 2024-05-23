@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-Shimmer shimmerItem(double height) {
+Shimmer shimmerItem(
+    {required double height, double width = 0, double radius = 8.0}) {
   return Shimmer.fromColors(
     baseColor: Colors.grey[850]!,
     highlightColor: Colors.grey[800]!,
     child: SizedBox(
+      width: width,
       height: height,
-      child: AspectRatio(
-        aspectRatio: 2.8 / 4,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(radius),
         ),
       ),
     ),
@@ -24,20 +23,72 @@ Widget listViewShimmer() {
   return Row(
     children: [
       const SizedBox(width: 10),
-      shimmerItem(120),
+      shimmerItem(height: 120, width: 0.7 * 120),
       const SizedBox(width: 10),
-      shimmerItem(120),
+      shimmerItem(height: 120, width: 0.7 * 120),
       const SizedBox(width: 10),
-      shimmerItem(120),
+      shimmerItem(height: 120, width: 0.7 * 120),
       const SizedBox(width: 10),
-      shimmerItem(120),
+      shimmerItem(height: 120, width: 0.7 * 120),
     ],
   );
 }
 
 Widget sliderShemmer() {
-  return Padding(
-    padding: const EdgeInsets.all(10),
-    child: shimmerItem(380),
+  return shimmerItem(height: 380, width: double.infinity, radius: 0);
+}
+
+Widget movieDetailsShemmer() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      shimmerItem(height: 250, width: double.infinity, radius: 0),
+      Padding(
+        padding: const EdgeInsets.all(16),
+        child: shimmerItem(
+          height: 35,
+          width: double.infinity,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            shimmerItem(height: 30, width: 70),
+            const SizedBox(width: 16),
+            shimmerItem(height: 30, width: 70),
+            const SizedBox(width: 16),
+            shimmerItem(height: 30, width: 70),
+          ],
+        ),
+      ),
+      Padding(
+          padding: const EdgeInsets.all(16),
+          child: shimmerItem(
+            height: 120,
+            width: double.infinity,
+          )),
+      const SizedBox(height: 14),
+      Padding(
+        padding: const EdgeInsets.all(16),
+        child: shimmerItem(
+          height: 35,
+          width: 180,
+        ),
+      ),
+      const SizedBox(height: 14),
+      Row(
+        children: [
+          const SizedBox(width: 16),
+          Expanded(child: shimmerItem(height: 150, width: 100)),
+          const SizedBox(width: 10),
+          Expanded(child: shimmerItem(height: 150, width: 100)),
+          const SizedBox(width: 10),
+          Expanded(child: shimmerItem(height: 150, width: 100)),
+          const SizedBox(width: 16),
+        ],
+      )
+    ],
   );
 }

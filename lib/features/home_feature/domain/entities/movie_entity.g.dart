@@ -22,13 +22,14 @@ class MovieEntityAdapter extends TypeAdapter<MovieEntity> {
       image: fields[2] as String,
       date: fields[3] as String,
       rate: fields[4] as num,
+      movieId: fields[5] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, MovieEntity obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class MovieEntityAdapter extends TypeAdapter<MovieEntity> {
       ..writeByte(3)
       ..write(obj.date)
       ..writeByte(4)
-      ..write(obj.rate);
+      ..write(obj.rate)
+      ..writeByte(5)
+      ..write(obj.movieId);
   }
 
   @override
