@@ -3,9 +3,9 @@ import 'package:cima_app/features/home_feature/domain/entities/movie_detailes_en
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MoviesDetailes extends StatelessWidget {
-  const MoviesDetailes({super.key, required this.movie});
-  final MovieDetailesEntity movie;
+class MoviesDetails extends StatelessWidget {
+  const MoviesDetails({super.key, required this.movie});
+  final MovieDetailsEntity movie;
   @override
   Widget build(BuildContext context) {
     return FadeInUp(

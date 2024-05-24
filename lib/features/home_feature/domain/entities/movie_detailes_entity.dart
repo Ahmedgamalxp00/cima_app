@@ -1,4 +1,4 @@
-class MovieDetailesEntity {
+class MovieDetailsEntity {
   final String movieBackdropPath;
   final List<String> movieGenres;
   final int movieId;
@@ -8,7 +8,7 @@ class MovieDetailesEntity {
   final String movieTitle;
   final double movieVoteAverage;
 
-  MovieDetailesEntity(
+  MovieDetailsEntity(
       {required this.movieBackdropPath,
       required this.movieGenres,
       required this.movieId,

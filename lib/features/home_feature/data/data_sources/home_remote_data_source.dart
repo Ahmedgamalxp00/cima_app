@@ -7,10 +7,12 @@ import 'package:cima_app/features/home_feature/domain/entities/movie_detailes_en
 import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<List<MovieEntity>> getNowPlayingMovies({int pageNumber = 1});
-  Future<List<MovieEntity>> getPopularMovies({int pageNumber = 1});
-  Future<List<MovieEntity>> getTopRatedMovies({int pageNumber = 1});
-  Future<MovieDetailesEntity> getMoviesDetailes({required int movieId});
+  Future<List<MovieEntity>> getNowPlayingMovies({int pageNumber});
+  Future<List<MovieEntity>> getPopularMovies({int pageNumber});
+  Future<List<MovieEntity>> getTopRatedMovies({int pageNumber});
+  Future<MovieDetailsEntity> getMoviesDetailes({required int movieId});
+  Future<List<MovieEntity>> getRecommendations(
+      {required int movieId, required int pageNumber});
 }
 
 class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
@@ -47,9 +49,18 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   }
 
   @override
-  Future<MovieDetailesEntity> getMoviesDetailes({required int movieId}) async {
+  Future<MovieDetailsEntity> getMoviesDetailes({required int movieId}) async {
     var data = await apiServices.get(endPoint: '$movieId');
-    MovieDetailesEntity movieDetailes = MovieDetailesModel.fromJson(data);
+    MovieDetailsEntity movieDetailes = MovieDetailesModel.fromJson(data);
     return movieDetailes;
+  }
+
+  @override
+  Future<List<MovieEntity>> getRecommendations(
+      {required int movieId, required int pageNumber}) async {
+    var data = await apiServices.get(
+        endPoint: '$movieId/recommendations', param: '&page=$pageNumber');
+    List<MovieEntity> recommendationsList = mapMoviesList(data);
+    return recommendationsList;
   }
 }

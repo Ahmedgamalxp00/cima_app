@@ -4,13 +4,13 @@ import 'package:cima_app/features/home_feature/domain/entities/movie_detailes_en
 import 'package:cima_app/features/home_feature/domain/repos/home_repo.dart';
 import 'package:dartz/dartz.dart';
 
-class GetMovieDetailesUseCase extends UseCase<MovieDetailesEntity, int> {
+class GetMovieDetailesUseCase extends UseCase<MovieDetailsEntity, int> {
   final HomeRepo homeRepo;
 
   GetMovieDetailesUseCase({required this.homeRepo});
 
   @override
-  Future<Either<Failure, MovieDetailesEntity>> call(int params) async {
+  Future<Either<Failure, MovieDetailsEntity>> call(int params) async {
     return await homeRepo.getMovieDetails(movieId: params);
   }
 }

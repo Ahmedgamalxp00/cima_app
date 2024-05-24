@@ -1,7 +1,6 @@
 import 'package:cima_app/core/errors/failures.dart';
 import 'package:cima_app/features/home_feature/data/data_sources/home_local_data_source.dart';
 import 'package:cima_app/features/home_feature/data/data_sources/home_remote_data_source.dart';
-import 'package:cima_app/features/home_feature/data/models/movie_model.dart';
 import 'package:cima_app/features/home_feature/domain/entities/movie_detailes_entity.dart';
 import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 import 'package:cima_app/features/home_feature/domain/repos/home_repo.dart';
@@ -80,9 +79,9 @@ class HomeRepoImpl extends HomeRepo {
   }
 
   @override
-  Future<Either<Failure, MovieDetailesEntity>> getMovieDetails(
+  Future<Either<Failure, MovieDetailsEntity>> getMovieDetails(
       {required int movieId}) async {
-    MovieDetailesEntity movieDetailes;
+    MovieDetailsEntity movieDetailes;
     try {
       movieDetailes =
           await homeRemoteDataSource.getMoviesDetailes(movieId: movieId);
@@ -96,9 +95,17 @@ class HomeRepoImpl extends HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<MovieModel>>> getRecommendations(
-      {required int movieId}) {
-    // TODO: implement getRecommendations
-    throw UnimplementedError();
+  Future<Either<Failure, List<MovieEntity>>> getRecommendations(
+      {required int movieId, int pageNumber = 1}) async {
+    try {
+      List<MovieEntity> recommendationsList = await homeRemoteDataSource
+          .getRecommendations(movieId: movieId, pageNumber: pageNumber);
+      return right(recommendationsList);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDiorError(e));
+      }
+      return left(ServerFailure(e.toString()));
+    }
   }
 }

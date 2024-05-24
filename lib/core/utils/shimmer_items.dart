@@ -78,17 +78,33 @@ Widget movieDetailsShemmer() {
         ),
       ),
       const SizedBox(height: 14),
-      Row(
-        children: [
-          const SizedBox(width: 16),
-          Expanded(child: shimmerItem(height: 150, width: 100)),
-          const SizedBox(width: 10),
-          Expanded(child: shimmerItem(height: 150, width: 100)),
-          const SizedBox(width: 10),
-          Expanded(child: shimmerItem(height: 150, width: 100)),
-          const SizedBox(width: 16),
-        ],
-      )
     ],
   );
+}
+
+class GridViewShimmer extends StatelessWidget {
+  const GridViewShimmer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+      sliver: SliverGrid(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return shimmerItem(height: 150);
+          },
+          childCount: 6,
+        ),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          mainAxisSpacing: 8.0,
+          crossAxisSpacing: 8.0,
+          childAspectRatio: 0.7,
+          crossAxisCount: 3,
+        ),
+      ),
+    );
+  }
 }

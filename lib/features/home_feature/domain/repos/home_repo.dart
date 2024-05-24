@@ -11,8 +11,8 @@ abstract class HomeRepo {
   Future<Either<Failure, List<MovieEntity>>> getTopRatedMovies(
       {int pageNumber = 1});
 
-  Future<Either<Failure, MovieDetailesEntity>> getMovieDetails(
+  Future<Either<Failure, MovieDetailsEntity>> getMovieDetails(
       {required int movieId});
   Future<Either<Failure, List<MovieEntity>>> getRecommendations(
-      {required int movieId});
+      {required int movieId, int pageNumber = 1});
 }

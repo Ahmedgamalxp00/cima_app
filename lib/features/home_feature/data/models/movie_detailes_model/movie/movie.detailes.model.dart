@@ -6,7 +6,7 @@ import 'production_company.detailes.model.dart';
 import 'production_country.detailes.model.dart';
 import 'spoken_language.detailes.model.dart';
 
-class MovieDetailesModel extends MovieDetailesEntity {
+class MovieDetailesModel extends MovieDetailsEntity {
   bool? adult;
   String? backdropPath;
   BelongsToCollection? belongsToCollection;

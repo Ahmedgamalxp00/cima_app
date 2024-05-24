@@ -1,15 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cima_app/core/constants.dart';
-import 'package:cima_app/features/home_feature/data/models/movie_model.dart';
-
+import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 import 'package:flutter/material.dart';
-
 import 'package:shimmer/shimmer.dart';
 
 class GridViewItem extends StatelessWidget {
   const GridViewItem({super.key, required this.movie});
-  final MovieModel movie;
+  final MovieEntity movie;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,7 +20,7 @@ class GridViewItem extends StatelessWidget {
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           child: CachedNetworkImage(
-            imageUrl: imageUrl(movie.backdropPath ?? movie.posterPath ?? ''),
+            imageUrl: imageUrl(movie.image),
             placeholder: (context, url) => Shimmer.fromColors(
               baseColor: Colors.grey[850]!,
               highlightColor: Colors.grey[800]!,

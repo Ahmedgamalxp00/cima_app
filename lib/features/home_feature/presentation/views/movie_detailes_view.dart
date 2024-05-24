@@ -14,7 +14,7 @@ class MovieDetailesView extends StatelessWidget {
       body: BlocBuilder<MovieDetailesCubit, MovieDetailesState>(
         builder: (context, state) {
           if (state is MovieDetailesSuccess) {
-            return MovieDetailesBody(
+            return MovieDetailsBody(
               movie: state.movieDetailes,
             );
           } else if (state is MovieDetailesFailure) {

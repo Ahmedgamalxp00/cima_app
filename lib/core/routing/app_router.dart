@@ -3,10 +3,12 @@ import 'package:cima_app/features/home_feature/data/repos/home_repo_impl.dart';
 import 'package:cima_app/features/home_feature/domain/use_cases/get_movie_detailes_usecase.dart';
 import 'package:cima_app/features/home_feature/domain/use_cases/get_now_playing_movies_usecae.dart';
 import 'package:cima_app/features/home_feature/domain/use_cases/get_popular_movies_usecae.dart';
+import 'package:cima_app/features/home_feature/domain/use_cases/get_recommendations_usecase.dart';
 import 'package:cima_app/features/home_feature/domain/use_cases/get_top_rated_movies_usecae.dart';
 import 'package:cima_app/features/home_feature/presentation/manager/movie_detailes_cubit/movie_detailes_cubit.dart';
 import 'package:cima_app/features/home_feature/presentation/manager/now_playing_movies_cubit/now_playing_movies_cubit.dart';
 import 'package:cima_app/features/home_feature/presentation/manager/popular_movies_cubit/popular_movies_cubit.dart';
+import 'package:cima_app/features/home_feature/presentation/manager/recommendations_movies_cubit/recommendations_movies_cubit.dart';
 import 'package:cima_app/features/home_feature/presentation/manager/top_rated_movies_cubit/top_rated_movies_cubit.dart';
 import 'package:cima_app/features/home_feature/presentation/views/home_view.dart';
 import 'package:cima_app/features/home_feature/presentation/views/movie_detailes_view.dart';
@@ -52,12 +54,23 @@ abstract class AppRouter {
       GoRoute(
         path: kDetailsView,
         builder: (BuildContext context, GoRouterState state) {
-          return BlocProvider(
-            create: (context) => MovieDetailesCubit(
-              GetMovieDetailesUseCase(
-                homeRepo: getIt.get<HomeRepoImpl>(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => MovieDetailesCubit(
+                  GetMovieDetailesUseCase(
+                    homeRepo: getIt.get<HomeRepoImpl>(),
+                  ),
+                )..getMovieDetailes(state.extra as int),
               ),
-            )..getMovieDetailes(state.extra as int),
+              BlocProvider(
+                create: (context) => RecommendationsMoviesCubit(
+                    GetRecommendationsUseCase(
+                        homeRepo: getIt.get<HomeRepoImpl>()))
+                  ..getRecommendationsMovies(
+                      id: state.extra as int, pageNumber: 1),
+              ),
+            ],
             child: const MovieDetailesView(),
           );
         },

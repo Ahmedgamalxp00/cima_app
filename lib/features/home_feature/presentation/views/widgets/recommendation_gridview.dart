@@ -1,10 +1,10 @@
-import 'package:cima_app/core/dummy1.dart';
+import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 import 'package:cima_app/features/home_feature/presentation/views/widgets/gridview_item.dart';
 import 'package:flutter/material.dart';
 
 class RecommendationGridview extends StatelessWidget {
-  const RecommendationGridview({super.key});
-
+  const RecommendationGridview({super.key, required this.moviesList});
+  final List<MovieEntity> moviesList;
   @override
   Widget build(BuildContext context) {
     return SliverPadding(

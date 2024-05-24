@@ -1,57 +1,91 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:cima_app/features/home_feature/data/models/movie_detailes_model/movie/movie.detailes.model.dart';
+import 'package:cima_app/core/utils/shimmer_items.dart';
+import 'package:cima_app/core/widgets/custom_error_widget.dart';
 import 'package:cima_app/features/home_feature/domain/entities/movie_detailes_entity.dart';
-import 'package:cima_app/features/home_feature/presentation/views/widgets/appBar_background.dart';
+import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
+import 'package:cima_app/features/home_feature/presentation/manager/recommendations_movies_cubit/recommendations_movies_cubit.dart';
 import 'package:cima_app/features/home_feature/presentation/views/widgets/movie_detailes.dart';
+import 'package:cima_app/features/home_feature/presentation/views/widgets/movies_detailes_appbar.dart';
 import 'package:cima_app/features/home_feature/presentation/views/widgets/recommendation_gridview.dart';
+import 'package:cima_app/features/home_feature/presentation/views/widgets/recommendations_header.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MovieDetailesBody extends StatelessWidget {
-  const MovieDetailesBody({super.key, required this.movie});
-  final MovieDetailesEntity movie;
+class MovieDetailsBody extends StatefulWidget {
+  const MovieDetailsBody({super.key, required this.movie});
+  final MovieDetailsEntity movie;
+
+  @override
+  State<MovieDetailsBody> createState() => _MovieDetailsBodyState();
+}
+
+class _MovieDetailsBodyState extends State<MovieDetailsBody> {
+  late ScrollController scrollController;
+  List<MovieEntity> moviesList = [];
+  int pageNumber = 1;
+  bool isLoading = false;
+  bool hasMoreData = true;
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  void _scrollListener() async {
+    var currentPosition = scrollController.position.pixels;
+    var maxScroll = scrollController.position.maxScrollExtent;
+    if (currentPosition >= 0.8 * maxScroll && hasMoreData) {
+      if (!isLoading) {
+        isLoading = true;
+        await BlocProvider.of<RecommendationsMoviesCubit>(context)
+            .getRecommendationsMovies(
+                id: widget.movie.movieId, pageNumber: ++pageNumber);
+        print(hasMoreData);
+        isLoading = false;
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(_scrollListener);
+    scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: scrollController,
       slivers: [
-        SliverAppBar(
-          actions: [
-            IconButton(
-                onPressed: () {
-                  context.pop();
-                },
-                icon: const Icon(Icons.home_filled))
-          ],
-          pinned: true,
-          expandedHeight: 250.0,
-          flexibleSpace: FlexibleSpaceBar(
-            background: AppBarBackGround(
-              url: movie.movieBackdropPath,
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: MoviesDetailes(
-            movie: movie,
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
-          sliver: SliverToBoxAdapter(
-            child: FadeInUp(
-              from: 20,
-              child: Text(
-                'More like this'.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 1.2,
-                ),
-              ),
-            ),
-          ),
-        ),
-        const RecommendationGridview(),
+        MoviesDetailsAppBar(widget: widget),
+        SliverToBoxAdapter(child: MoviesDetails(movie: widget.movie)),
+        const RecommendationsHeader(),
+        BlocConsumer<RecommendationsMoviesCubit, RecommendationsMoviesState>(
+          listener: (context, state) {
+            if (state is RecommendationsMoviesSuccess) {
+              if (state.movies.isEmpty) {
+                hasMoreData = false;
+              } else {
+                moviesList.addAll(state.movies);
+              }
+            }
+          },
+          builder: (context, state) {
+            if (state is RecommendationsMoviesSuccess ||
+                state is RecommendationsMoviesPaginationLoading ||
+                state is RecommendationsMoviesPaginationFailure) {
+              return RecommendationGridview(
+                moviesList: moviesList,
+              );
+            } else if (state is RecommendationsMoviesFailure) {
+              return SliverToBoxAdapter(
+                  child: CustomErrorWidget(errMassage: state.errMassage));
+            } else {
+              return const GridViewShimmer();
+            }
+          },
+        )
       ],
     );
   }
