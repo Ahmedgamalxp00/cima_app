@@ -12,12 +12,16 @@ import 'package:cima_app/features/home_feature/presentation/manager/recommendati
 import 'package:cima_app/features/home_feature/presentation/manager/top_rated_movies_cubit/top_rated_movies_cubit.dart';
 import 'package:cima_app/features/home_feature/presentation/views/home_view.dart';
 import 'package:cima_app/features/home_feature/presentation/views/movie_detailes_view.dart';
+import 'package:cima_app/features/home_feature/presentation/views/widgets/popular_seeMore_view.dart';
+import 'package:cima_app/features/home_feature/presentation/views/widgets/topRated_seeMore_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class AppRouter {
   static const kDetailsView = '/detailsView';
+  static const kPopularSeeMoreView = '/popularSeeMoreView';
+  static const kTopRatedSeeMoreView = '/topRatedSeeMoreView';
   static final GoRouter router = GoRouter(
     routes: <RouteBase>[
       GoRoute(
@@ -72,6 +76,30 @@ abstract class AppRouter {
               ),
             ],
             child: const MovieDetailesView(),
+          );
+        },
+      ),
+      GoRoute(
+        path: kPopularSeeMoreView,
+        builder: (BuildContext context, GoRouterState state) {
+          return BlocProvider(
+            create: (context) => PopularMoviesCubit(GetPopularMoviesUseCase(
+              homeRepo: getIt.get<HomeRepoImpl>(),
+            ))
+              ..getPopularMovies(),
+            child: const PopularSeeMoreView(),
+          );
+        },
+      ),
+      GoRoute(
+        path: kTopRatedSeeMoreView,
+        builder: (BuildContext context, GoRouterState state) {
+          return BlocProvider(
+            create: (context) => TopRatedMoviesCubit(GetTopRatedMoviesUseCase(
+              homeRepo: getIt<HomeRepoImpl>(),
+            ))
+              ..getTopRatedMovies(),
+            child: const TopRatedSeeMoreView(),
           );
         },
       )

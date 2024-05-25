@@ -108,3 +108,17 @@ class GridViewShimmer extends StatelessWidget {
     );
   }
 }
+
+Widget seeMoreListViewShimmer() {
+  return ListView.separated(
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 90, bottom: 10),
+      itemBuilder: (context, indext) {
+        return shimmerItem(height: 136, width: double.infinity);
+      },
+      separatorBuilder: (context, indext) {
+        return const SizedBox(
+          height: 10,
+        );
+      },
+      itemCount: 5);
+}

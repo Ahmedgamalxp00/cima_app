@@ -1,18 +1,19 @@
 import 'package:animate_do/animate_do.dart';
-
-import 'package:cima_app/features/home_feature/data/models/movie_model.dart';
+import 'package:cima_app/core/routing/app_router.dart';
+import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
 import 'package:cima_app/features/home_feature/presentation/views/widgets/movie_list_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SeeMoreItem extends StatelessWidget {
   const SeeMoreItem({super.key, required this.movie});
-  final MovieModel movie;
+  final MovieEntity movie;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // context.push(AppRouter.kMovieDetailesView, extra: movie.id);
+        context.push(AppRouter.kDetailsView, extra: movie.movieId);
       },
       child: FadeInUp(
         from: 20,
@@ -26,7 +27,7 @@ class SeeMoreItem extends StatelessWidget {
               child: Row(
                 children: [
                   MovieListImage(
-                    url: movie.backdropPath!,
+                    url: movie.image,
                   ),
                   const SizedBox(
                     width: 16,
@@ -40,7 +41,7 @@ class SeeMoreItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            movie.title!,
+                            movie.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
@@ -64,7 +65,7 @@ class SeeMoreItem extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(4.0),
                                 ),
                                 child: Text(
-                                  movie.releaseDate!.split('-')[0],
+                                  movie.date.split('-')[0],
                                   style: const TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w500,
@@ -81,7 +82,7 @@ class SeeMoreItem extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 4.0),
                                   Text(
-                                    (movie.voteAverage! / 2).toStringAsFixed(1),
+                                    (movie.rate / 2).toStringAsFixed(1),
                                     style: const TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w500,
@@ -90,7 +91,7 @@ class SeeMoreItem extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 4.0),
                                   Text(
-                                    '(${movie.voteAverage})',
+                                    '(${movie.rate})',
                                     style: const TextStyle(
                                       fontSize: 1.0,
                                       fontWeight: FontWeight.w500,
@@ -105,7 +106,7 @@ class SeeMoreItem extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(right: 16.0),
                             child: Text(
-                              movie.overview!,
+                              movie.description,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(

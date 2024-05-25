@@ -1,3 +1,4 @@
+import 'package:cima_app/core/routing/app_router.dart';
 import 'package:cima_app/core/utils/shimmer_items.dart';
 import 'package:cima_app/core/widgets/custom_error_widget.dart';
 import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
@@ -6,6 +7,7 @@ import 'package:cima_app/features/home_feature/presentation/views/widgets/custom
 import 'package:cima_app/features/home_feature/presentation/views/widgets/popular_movies_listView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class PopularMoviesSection extends StatefulWidget {
   const PopularMoviesSection({super.key});
@@ -20,7 +22,10 @@ class _PopularMoviesSectionState extends State<PopularMoviesSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const CustomSectionTitle(
+        CustomSectionTitle(
+          onTap: () {
+            context.push(AppRouter.kPopularSeeMoreView, extra: movies);
+          },
           title: 'Popular',
         ),
         BlocConsumer<PopularMoviesCubit, PopularMoviesState>(

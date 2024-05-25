@@ -1,3 +1,4 @@
+import 'package:cima_app/core/routing/app_router.dart';
 import 'package:cima_app/core/utils/shimmer_items.dart';
 import 'package:cima_app/core/widgets/custom_error_widget.dart';
 import 'package:cima_app/features/home_feature/domain/entities/movie_entity.dart';
@@ -6,6 +7,7 @@ import 'package:cima_app/features/home_feature/presentation/views/widgets/custom
 import 'package:cima_app/features/home_feature/presentation/views/widgets/topRated_movies_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class TopRatedMoviesSection extends StatefulWidget {
   const TopRatedMoviesSection({super.key});
@@ -20,7 +22,10 @@ class _TopRatedMoviesSectionState extends State<TopRatedMoviesSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const CustomSectionTitle(
+        CustomSectionTitle(
+          onTap: () {
+            context.push(AppRouter.kTopRatedSeeMoreView, extra: movies);
+          },
           title: 'Top Rated',
         ),
         BlocConsumer<TopRatedMoviesCubit, TopRatedMoviesState>(
